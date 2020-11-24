@@ -32,11 +32,9 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 			}
 			String username = TokenUtil.getUsernameFromToken(header);
 			List<Map<String, String>> roles = TokenUtil.getRoleFromToken(header);
-			Authentication authentication = new UsernamePasswordAuthenticationToken(username, null,
-																					roles
-																					.stream()
-																					.map(m -> new SimpleGrantedAuthority(m.get("authority")))
-																					.collect(Collectors.toSet()));
+			Authentication authentication = 
+					new UsernamePasswordAuthenticationToken(username, null, roles.stream()
+							.map(m -> new SimpleGrantedAuthority(m.get("authority"))).collect(Collectors.toSet()));
 			SecurityContextHolder.getContext().setAuthentication(authentication);
 		} catch (JwtException e) {
 			throw new IllegalStateException("TOKEN_NOT_TRUSTED");
