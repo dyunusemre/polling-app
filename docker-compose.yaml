@@ -1,0 +1,32 @@
+version: "3.8"
+services:
+  mongo:
+    image: 'mongo'
+    ports: 
+      - '8000'
+    volumes: 
+      - data:/data/db
+  mongo-express:
+    image: 'mongo-express'
+    ports: 
+      - '8081:8081'
+  backend:
+    image: 'dyunusemre/polling-be'
+    ports:
+      - '8080:8080'
+    volumes: 
+      - logs:/app/logs
+    depends_on:
+      - mongo
+  frontend:
+    image: 'dyunusemre/polling-fe'
+    ports: 
+      - '4200:80'
+    stdin_open: true
+    tty: true
+    depends_on: 
+      - backend
+
+volumes: 
+  data:
+  logs:
