@@ -37,7 +37,7 @@ public class QuestionComponent {
 			questionRepository.save(questionOpt.get());
 			userAnswerRepository.save(new UserAnswer(null, questionId, userId, optionNo));
 		} else {
-			throw new RuntimeException("QUESTION_COULD_NOT_FIND");
+			throw new SourceNotFoundException("QUESTION_COULD_NOT_FIND");
 		}
 	}
 
