@@ -1,3 +1,3 @@
-# polling-app
+# Spring Security + Angular 10 + MongoDB 
 
-docker-compose up  to start application
+A role based security application 
