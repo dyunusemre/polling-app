@@ -1,5 +1,7 @@
 # Spring Security + Angular 10 + MongoDB 
 
+Docker to build and ship
+
 Run command to start application  
 docker-compose up -d
 
