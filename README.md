@@ -1,4 +1,4 @@
-# Spring Security + Angular 10 + MongoDB 
+# Spring Boot + Spring Security + Angular 10 + MongoDB 
 
 Docker to build and ship
 
