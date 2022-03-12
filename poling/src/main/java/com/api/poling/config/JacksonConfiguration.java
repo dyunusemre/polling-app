@@ -1,4 +1,4 @@
-package com.api.poling;
+package com.api.poling.config;
 
 import org.springframework.context.annotation.Configuration;
 
@@ -7,7 +7,8 @@ import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
 
 @Configuration
 public class JacksonConfiguration {
-	public JacksonConfiguration(ObjectMapper objectMapper) { 
-        objectMapper.setFilterProvider(new SimpleFilterProvider().setFailOnUnknownId(false)); 
-    } 
+
+    public JacksonConfiguration(ObjectMapper objectMapper) {
+        objectMapper.setFilterProvider(new SimpleFilterProvider().setFailOnUnknownId(false));
+    }
 }

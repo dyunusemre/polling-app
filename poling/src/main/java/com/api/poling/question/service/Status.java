@@ -1,4 +1,4 @@
-package com.api.poling.question.component;
+package com.api.poling.question.service;
 
 public enum Status {
 	A("Approved"),

@@ -1,4 +1,4 @@
-package com.api.poling.question.component;
+package com.api.poling.question.service;
 
 import java.util.List;
 import java.util.Optional;
@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.converter.json.MappingJacksonValue;
 import org.springframework.stereotype.Component;
 
-import com.api.poling.auth.model.User;
+import com.api.poling.auth.dao.User;
 import com.api.poling.auth.repository.UserRepository;
 import com.api.poling.question.model.Question;
 import com.api.poling.question.model.UserAnswer;
@@ -18,8 +18,9 @@ import com.api.poling.question.request.ResponseRetrieveAnswer;
 import com.fasterxml.jackson.databind.ser.FilterProvider;
 import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
 import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
+import org.springframework.stereotype.Service;
 
-@Component
+@Service
 public class QuestionComponent {
 	@Autowired
 	QuestionRepository questionRepository;

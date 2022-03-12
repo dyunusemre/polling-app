@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.api.poling.question.component.QuestionComponent;
-import com.api.poling.question.component.Status;
+import com.api.poling.question.service.QuestionComponent;
+import com.api.poling.question.service.Status;
 import com.api.poling.question.model.Question;
 import com.api.poling.question.request.RequestApproveQuestion;
 import com.api.poling.question.request.RequestRetriewUserAnswer;

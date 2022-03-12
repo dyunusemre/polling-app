@@ -1,4 +1,4 @@
-package com.api.poling;
+package com.api.poling.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
