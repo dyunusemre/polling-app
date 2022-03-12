@@ -1,4 +1,4 @@
-package com.api.poling.question.service;
+package com.api.poling.question.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
