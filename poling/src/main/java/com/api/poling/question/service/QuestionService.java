@@ -1,16 +1,15 @@
 package com.api.poling.question.service;
 
 import java.util.List;
-import java.util.Optional;
 
+import com.api.poling.auth.service.UserService;
+import com.api.poling.question.dto.ApproveQuestionRequest;
+import com.api.poling.question.dto.SaveAnswerRequest;
 import com.api.poling.question.enums.Status;
 import com.api.poling.question.exception.SourceNotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.converter.json.MappingJacksonValue;
 
-import com.api.poling.auth.dao.User;
-import com.api.poling.auth.repository.UserRepository;
 import com.api.poling.question.dao.Question;
 import com.api.poling.question.dao.UserAnswer;
 import com.api.poling.question.repository.QuestionRepository;
@@ -22,25 +21,21 @@ import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
 import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
 import org.springframework.stereotype.Service;
 
-//TODO service needs refactoring
 @Service
 @RequiredArgsConstructor
 public class QuestionService {
+
+    private final UserService userService;
     private final QuestionRepository questionRepository;
-    private final UserRepository userRepository;
     private final UserAnswerRepository userAnswerRepository;
 
-    public void saveAnswer(String questionId, String userId, Integer optionNo) {
-        Optional<Question> questionOpt = questionRepository.findById(questionId);
-        Optional<User> userOpt = userRepository.findById(userId);
-        if (questionOpt.isPresent() && userOpt.isPresent()) {
-            questionOpt.get().getAnswers().stream().filter(a -> a.getOptionNo().equals(optionNo))
-                    .forEach(a -> a.setAnswerCount(a.getAnswerCount() + 1));
-            questionRepository.save(questionOpt.get());
-            userAnswerRepository.save(new UserAnswer(null, questionId, userId, optionNo));
-        } else {
-            throw new SourceNotFoundException("QUESTION_COULD_NOT_FIND");
-        }
+    public void saveAnswer(SaveAnswerRequest request) {
+        Question question = validateUserAnswerAndGetQuestion(request);
+        question.getAnswers().stream()
+                .filter(a -> a.getOptionNo().equals(request.getOptionNo()))
+                .forEach(a -> a.setAnswerCount(a.getAnswerCount() + 1));
+        questionRepository.save(question);
+        userAnswerRepository.save(buildUserAnswer(request));
     }
 
     public List<Question> getAllAnswers() {
@@ -48,12 +43,10 @@ public class QuestionService {
     }
 
     public RetrieveAnswerResponse retrieveAnswer(ReviewUserAnswerRequest request) {
-        RetrieveAnswerResponse response = new RetrieveAnswerResponse();
-        Optional<UserAnswer> userAnswer = userAnswerRepository
-                .findByQuestionIdAndUserId(request.getQuestionId(), request.getUserId());
-        if (userAnswer.isPresent()) {
-            response.setOptionNo(userAnswer.get().getOptionNo());
-        }
+        RetrieveAnswerResponse response = RetrieveAnswerResponse.builder().build();
+        userAnswerRepository.findByQuestionIdAndUserId(request.getQuestionId(), request.getUserId()).ifPresent(answer -> {
+            response.setOptionNo(answer.getOptionNo());
+        });
         return response;
     }
 
@@ -66,9 +59,8 @@ public class QuestionService {
         return mapping;
     }
 
-    public void approveQuestion(String qId) {
-        Question question = questionRepository.findById(qId)
-                .orElseThrow(() -> new SourceNotFoundException("SOURCE_NOT_FOUND"));
+    public void approveQuestion(ApproveQuestionRequest request) {
+        Question question = questionRepository.findById(request.getQuestionId()).orElseThrow(() -> new SourceNotFoundException("Question not found"));
         question.setStatus(Status.A.name());
         questionRepository.save(question);
     }
@@ -79,6 +71,25 @@ public class QuestionService {
 
     public void deleteQuestion(String questionId) {
         questionRepository.deleteById(questionId);
+    }
+
+    private Question validateUserAnswerAndGetQuestion(SaveAnswerRequest request) {
+        userService.findUserById(request.getUserId()).orElseThrow(() -> {
+            throw new RuntimeException("User not found");
+        });
+
+        Question question = questionRepository.findById(request.getQuestionId()).orElseThrow(() -> {
+            throw new SourceNotFoundException("Question not found");
+        });
+        return question;
+    }
+
+    private UserAnswer buildUserAnswer(SaveAnswerRequest request) {
+        return UserAnswer.builder()
+                .questionId(request.getQuestionId())
+                .userId(request.getUserId())
+                .optionNo(request.getOptionNo())
+                .build();
     }
 
 }

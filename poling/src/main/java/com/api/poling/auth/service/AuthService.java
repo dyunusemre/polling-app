@@ -24,7 +24,7 @@ public class AuthService {
     private final JwtTokenService jwtTokenService;
 
     public ResponseEntity<LoginResponse> login(LoginRequest request) {
-        userService.findByUsername(request.getUsername()).orElseThrow(() -> {
+        userService.findUserByUsername(request.getUsername()).orElseThrow(() -> {
             throw new RuntimeException("User not found");
         });
         return ResponseEntity.ok(buildLoginResponse(authenticate(request.getUsername(), request.getPassword())));

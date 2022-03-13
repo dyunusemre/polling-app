@@ -48,7 +48,7 @@ public class QuestionController {
     @PostMapping("/approve-question")
     @ApiOperation("Approve the questions on waiting")
     public void approveWaitingQuestions(@RequestBody ApproveQuestionRequest request) {
-        questionService.approveQuestion(request.getQuestionId());
+        questionService.approveQuestion(request);
     }
 
     @PostMapping("/retrive-answer")
@@ -60,7 +60,7 @@ public class QuestionController {
     @PutMapping("/send-answer")
     @ApiOperation("Save the answer for specified question")
     public void sendAnswer(@RequestBody SaveAnswerRequest request) {
-        questionService.saveAnswer(request.getQuestionId(), request.getUserId(), request.getOptionNo());
+        questionService.saveAnswer(request);
     }
 
     @PostMapping("/create-question")
