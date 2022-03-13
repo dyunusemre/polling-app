@@ -1,4 +1,4 @@
-package com.api.poling.config;
+package com.api.poling.auth.security;
 
 import java.util.ArrayList;
 import java.util.Collection;

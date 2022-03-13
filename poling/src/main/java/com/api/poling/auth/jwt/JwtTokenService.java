@@ -8,7 +8,7 @@ import java.util.Map;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
-import com.api.poling.config.CustomUserDetails;
+import com.api.poling.auth.security.CustomUserDetails;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;

@@ -1,4 +1,4 @@
-package com.api.poling.config;
+package com.api.poling.auth.security;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;

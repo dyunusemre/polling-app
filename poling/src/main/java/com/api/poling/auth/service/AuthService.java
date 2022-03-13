@@ -2,7 +2,7 @@ package com.api.poling.auth.service;
 
 import com.api.poling.auth.exception.BadCredentialsException;
 import com.api.poling.auth.exception.UserNotFoundException;
-import com.api.poling.config.CustomUserDetails;
+import com.api.poling.auth.security.CustomUserDetails;
 import com.api.poling.auth.dto.LoginRequest;
 import com.api.poling.auth.dto.LoginResponse;
 import com.api.poling.auth.dto.SignupRequest;
