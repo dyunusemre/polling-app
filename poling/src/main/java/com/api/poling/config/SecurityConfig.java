@@ -21,8 +21,6 @@ import com.api.poling.auth.service.CustomUserDetailsService;
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private final CustomUserDetailsService userService;
-    private final PasswordEncoder passwordEncoder;
     private final CustomRequestFilter customRequestFilter;
 
     private static final String[] SWAGGER = {
@@ -42,14 +40,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private static final String[] ADMIN_END_POINT = {
             "/api/question/**"
     };
-
-    @Bean
-    public DaoAuthenticationProvider authenticationProvider() {
-        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-        authProvider.setUserDetailsService(userService);
-        authProvider.setPasswordEncoder(passwordEncoder);
-        return authProvider;
-    }
 
     @Bean
     @Override

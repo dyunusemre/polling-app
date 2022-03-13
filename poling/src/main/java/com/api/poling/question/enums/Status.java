@@ -5,7 +5,6 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-@AllArgsConstructor
 @Getter
 public enum Status {
     A("Approved"),
