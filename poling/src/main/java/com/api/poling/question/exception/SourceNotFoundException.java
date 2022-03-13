@@ -6,13 +6,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ResponseStatus(HttpStatus.NOT_FOUND)
 public class SourceNotFoundException extends RuntimeException {
 
-	public SourceNotFoundException(String string) {
-		super(string);
-	}
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	
+    public SourceNotFoundException() {
+        super("Question not found");
+    }
 }

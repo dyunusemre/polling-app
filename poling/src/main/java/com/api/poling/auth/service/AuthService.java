@@ -1,5 +1,7 @@
 package com.api.poling.auth.service;
 
+import com.api.poling.auth.exception.BadCredentialsException;
+import com.api.poling.auth.exception.UserNotFoundException;
 import com.api.poling.config.CustomUserDetails;
 import com.api.poling.auth.dto.LoginRequest;
 import com.api.poling.auth.dto.LoginResponse;
@@ -24,9 +26,7 @@ public class AuthService {
     private final JwtTokenService jwtTokenService;
 
     public ResponseEntity<LoginResponse> login(LoginRequest request) {
-        userService.findUserByUsername(request.getUsername()).orElseThrow(() -> {
-            throw new RuntimeException("User not found");
-        });
+        userService.findUserByUsername(request.getUsername()).orElseThrow(UserNotFoundException::new);
         return ResponseEntity.ok(buildLoginResponse(authenticate(request.getUsername(), request.getPassword())));
     }
 
@@ -42,7 +42,7 @@ public class AuthService {
             SecurityContextHolder.getContext().setAuthentication(authentication);
             return authentication;
         } catch (Exception ex) {
-            throw new RuntimeException("Bad credentials");
+            throw new BadCredentialsException();
         }
     }
 

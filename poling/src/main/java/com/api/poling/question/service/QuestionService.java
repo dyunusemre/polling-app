@@ -2,6 +2,7 @@ package com.api.poling.question.service;
 
 import java.util.List;
 
+import com.api.poling.auth.exception.UserNotFoundException;
 import com.api.poling.auth.service.UserService;
 import com.api.poling.question.dto.ApproveQuestionRequest;
 import com.api.poling.question.dto.SaveAnswerRequest;
@@ -60,7 +61,7 @@ public class QuestionService {
     }
 
     public void approveQuestion(ApproveQuestionRequest request) {
-        Question question = questionRepository.findById(request.getQuestionId()).orElseThrow(() -> new SourceNotFoundException("Question not found"));
+        Question question = questionRepository.findById(request.getQuestionId()).orElseThrow(SourceNotFoundException::new);
         question.setStatus(Status.A.name());
         questionRepository.save(question);
     }
@@ -74,14 +75,8 @@ public class QuestionService {
     }
 
     private Question validateUserAnswerAndGetQuestion(SaveAnswerRequest request) {
-        userService.findUserById(request.getUserId()).orElseThrow(() -> {
-            throw new RuntimeException("User not found");
-        });
-
-        Question question = questionRepository.findById(request.getQuestionId()).orElseThrow(() -> {
-            throw new SourceNotFoundException("Question not found");
-        });
-        return question;
+        userService.findUserById(request.getUserId()).orElseThrow(UserNotFoundException::new);
+        return questionRepository.findById(request.getQuestionId()).orElseThrow(SourceNotFoundException::new);
     }
 
     private UserAnswer buildUserAnswer(SaveAnswerRequest request) {

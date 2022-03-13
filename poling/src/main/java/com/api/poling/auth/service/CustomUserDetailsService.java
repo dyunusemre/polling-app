@@ -1,5 +1,6 @@
 package com.api.poling.auth.service;
 
+import com.api.poling.auth.exception.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -18,8 +19,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("USER_DOES_NOT_EXISTS"));
+        User user = userRepository.findByUsername(username).orElseThrow(UserNotFoundException::new);
         return new CustomUserDetails(user);
     }
 
