@@ -1,10 +1,10 @@
-package com.api.polling;
+package com.api.poling;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-public class PollingApplicationTests {
+class PolingApplicationTests {
 
     @Test
     void contextLoads() {

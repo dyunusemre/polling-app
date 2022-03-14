@@ -12,6 +12,7 @@ import org.springframework.data.mongodb.core.mapping.Field;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 @Data
 @Document(collection = "Question")
 public class Question {
