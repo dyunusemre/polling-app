@@ -17,11 +17,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void signup(SignupRequest request) {
-        Optional<User> userOptional = userRepository.findByUsername(request.getUsername());
-        if (userOptional.isPresent())
-            throw new RuntimeException("Username exists");
-
+        validateUserByUsername(request.getUsername());
         userRepository.save(getUserBuilder(request));
+    }
+
+    private void validateUserByUsername(String username) {
+        if (userRepository.findByUsername(username).isPresent())
+            throw new RuntimeException("Username exists");
     }
 
     @Override
