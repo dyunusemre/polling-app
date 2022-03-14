@@ -18,8 +18,7 @@ import java.util.Optional;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 
 @ExtendWith(MockitoExtension.class)
@@ -62,10 +61,13 @@ class UserServiceImplTest {
                 .username("testusername")
                 .password("testpassword")
                 .build();
-        given(userRepository.findByUsername(request.getUsername())).willReturn(Optional.of(buildUser(request)));
+        when(userRepository.findByUsername(anyString())).thenReturn(Optional.of(buildUser(request)));
+        //given(userRepository.findByUsername(request.getUsername())).willReturn(Optional.of(buildUser(request)));
         assertThatThrownBy(() -> underTestUserService.signup(request))
                 .isInstanceOf(RuntimeException.class)
                 .hasMessageContaining("Username exists");
+
+        verify(userRepository , never()).save(any());
     }
 
     @Test
